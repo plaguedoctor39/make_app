@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import path
 
 
 class TableField(models.Model):
@@ -7,12 +8,24 @@ class TableField(models.Model):
     width = models.IntegerField(verbose_name='Ширина')
 
 
-class SavePath(models.Model):
-    file_path = models.FilePathField(path='/Users/daniil/PycharmProjects/make_app/', match='#*\.csv$',
-                                     recursive=True, verbose_name='Путь к файлу')
+class CsvPath(models.Model):
+    csvPath = models.CharField(max_length=200, verbose_name='Путь к файлу')
 
-    def set_path(self, path):
-        SavePath.save(path)
+    class Meta:
+        verbose_name = 'Путь к файлу'
+        verbose_name_plural = 'Пути к файлам'
 
     def get_path(self):
-        return self.file_path
+        return self.csvPath
+
+    def set_path(self, new_path):
+        self.csvPath = new_path
+        self.save()
+
+    def save(self, *args, **kwargs):
+        obj = CsvPath.objects.all()
+        if obj.count() == 0 or self.pk == 1:
+            super(CsvPath, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return path.basename(self.csvPath)

@@ -7,6 +7,6 @@ class TableAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(SavePath)
+@admin.register(CsvPath)
 class FileAdmin(admin.ModelAdmin):
     pass

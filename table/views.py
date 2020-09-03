@@ -6,7 +6,7 @@ from .models import *
 def table_view(request):
     template = 'table.html'
     columns = TableField.objects.all()
-    csv_filename = SavePath.objects.first()
+    csv_filename = CsvPath.objects.first()
     with open(csv_filename.get_path(), 'rt') as csv_file:
         header = []
         table = []
